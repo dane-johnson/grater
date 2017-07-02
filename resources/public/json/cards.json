@@ -1,7 +1,6 @@
 [
-  ["The president is a dumbass", "This is news to nobody"],
-  ["Nuclear Apocalypse", "So um yeah..."],
-  ["Cat photos!", "Jesus Fucking Christ yes!!"],
-  ["Email Scandal", "This will literally never end"],
-  ["BlahBlahBlahBlahBlahBlahBlahBlahBlahBlah", "BlahBlah\nBlahBlah\nBlahBlahBlahBlah"]
+  ["The president is a dumbass", "This is news to nobody", -1, 100.00],
+  ["Nuclear Apocalypse", "So um yeah...", -8, 50.00],
+  ["Cat photos!", "Jesus Fucking Christ yes!!", 4, -25.00],
+  ["Email Scandal", "This will literally never end", -2, 150.00]
 ]

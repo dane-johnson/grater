@@ -1,10 +1,22 @@
 (ns grater.core
   (:require [reagent.core :as reagent :refer [atom]]
-            [ajax.core :refer [GET]]))
-
+            [ajax.core :refer [GET]]
+            [goog.string.format]
+            [goog.string :refer [format]]))
+            
 (enable-console-print!)
 
-(defonce appstate (atom {:deck [] :cards (list)}))
+(defn sanity-validator
+  "Ensures sanity remains in range of 0-10"
+  [{:keys [sanity]}]
+  (and (>= sanity 0)
+       (<= sanity 10)))
+
+(defonce appstate (atom {:deck []
+                         :cards (list)
+                         :money 0.00
+                         :sanity 10}
+                        :validator sanity-validator))
 
 (defn tweet
   "Represents a single tweet"
@@ -21,7 +33,10 @@
 
 (defn add-card!
   [card]
-  (swap! appstate #(update % :cards conj card)))
+  (do
+    (swap! appstate #(update % :cards conj card))
+    (swap! appstate #(update % :sanity + (card 2)))
+    (swap! appstate #(update % :money + (card 3)))))
 
 (defn feed
   []
@@ -36,8 +51,8 @@
 (defn stats
   []
   [:div.stats
-   [stat "Money" "$200.00"]
-   [stat "Sanity" "8/10"]])
+   [stat "Money" (format "$%.2f" (:money @appstate))]
+   [stat "Sanity" (str (:sanity @appstate) "/10")]])
 
 (defn read-button
   "Pulls another card from the deck"
