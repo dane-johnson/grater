@@ -20,11 +20,13 @@
 }
 
 .tweet p:first-child {
-    font: 30pt Helvetica;
+    font: 20pt Helvetica;
+    padding: 8px;
+    word-wrap: break-word;
 }
 
 .tweet p:last-child {
-    font: 20pt Courier;
+    font: 12pt Courier;
     text-align: right;
     padding: 4px;
 }
@@ -35,6 +37,8 @@
     width: 40%;
     margin-left: 60%;
     position: absolute;
+    font: 12pt monospace;
+    padding: 5px;
 }
 
 .stat span {
@@ -48,5 +52,6 @@
     margin-left: 60%;
     position: absolute;
     bottom: 0;
-    text-align: right;
+    text-align: center;
+    padding: 20px;
 }
