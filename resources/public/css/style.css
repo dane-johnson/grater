@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Tweets and feed */
+.feed {
+    position: absolute;
+    display: block;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 60%;
+    height: 100%;
+}
+
+.tweet {
+    background-color: #20324f;
+    color: white;
+    border: 2px solid black;
+}
+
+.tweet p:first-child {
+    font: 30pt Helvetica;
+}
+
+.tweet p:last-child {
+    font: 20pt Courier;
+    text-align: right;
+    padding: 4px;
+}
+
+/* Stats */
+.stats {
+    display: block;
+    width: 40%;
+    margin-left: 60%;
+    position: absolute;
+}
+
+.stat span {
+    text-align: right;
+    display: auto;
+}
+
+.controls {
+    display: block;
+    width: 40%;
+    margin-left: 60%;
+    position: absolute;
+    bottom: 0;
+    text-align: right;
+}
