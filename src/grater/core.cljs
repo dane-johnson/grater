@@ -54,16 +54,26 @@
    [stat "Money" (format "$%.2f" (:money @appstate))]
    [stat "Sanity" (str (:sanity @appstate) "/10")]])
 
+(defn button
+  [str f]
+  [:input.btn.btn-primary
+   {:type "button" :value str :on-click f}])
+
+
 (defn read-button
   "Pulls another card from the deck"
   []
-  [:input.btn.btn-primary
-   {:type "button" :value "Read Tweet"
-    :on-click #(-> (:deck @appstate) rand-nth add-card!)}])
+  [button "Read Tweet" #(-> (:deck @appstate) rand-nth add-card!)])
+
+(defn work-button
+  "Cash in information, reset sanity"
+  []
+  [button "Go To Work" (fn [] (swap! appstate #(assoc % :sanity 10)))])
+
 
 (defn controls
   []
-  [:div.controls [read-button]])
+  [:div.controls [read-button] [work-button]])
 
 
 (reagent/render-component [:div [feed] [stats] [controls]]
