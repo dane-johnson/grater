@@ -1,6 +1,6 @@
 [
-  ["The president is a dumbass", "This is news to nobody", -1, 2],
-  ["Nuclear Apocalypse", "So um yeah...", -8, 1],
-  ["Cat photos!", "Jesus Fucking Christ yes!!", 4, -1],
-  ["Email Scandal", "This will literally never end", -2, 3]
+  ["The president is a dumbass", "This is news to nobody", -1, 2, 3],
+  ["Nuclear Apocalypse", "So um yeah...", -8, 1, 1],
+  ["Cat photos!", "Jesus Fucking Christ yes!!", 4, -1, 4],
+  ["Email Scandal", "This will literally never end", -2, 3, 2]
 ]

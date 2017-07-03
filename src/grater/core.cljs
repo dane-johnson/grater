@@ -48,6 +48,13 @@
     (swap! appstate #(update % :sanity + (card 2)))
     (swap! appstate #(update % :info + (card 3)))))
 
+(defn draw-card
+  "Draws a card from the deck based on weight."
+  []
+  (->> @appstate :deck
+       (reduce #(concat %1 (repeat (get %2 4) %2)) (list))
+       rand-nth))
+
 (defn feed
   []
   [:div.feed
@@ -74,7 +81,7 @@
 (defn read-button
   "Pulls another card from the deck"
   []
-  [button "Read Tweet" #(-> (:deck @appstate) rand-nth add-card!)])
+  [button "Read Tweet" #(-> (draw-card) add-card!)])
 
 (defn work-button
   "Cash in information, reset sanity"
