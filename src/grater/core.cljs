@@ -12,7 +12,7 @@
   (and (>= sanity 0)
        (<= sanity 10)
        (>= info 0)
-       (<= sanity 10)))
+       (<= info 10)))
 
 (defonce appstate (atom {:deck []
                          :cards (list)
