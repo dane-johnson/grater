@@ -90,7 +90,7 @@
    (fn [] (swap! appstate #(-> %
                                (update :money + (calc-income))
                                (assoc :sanity 10)
-                               (assoc :cards [])
+                               (assoc :cards (list))
                                (assoc :info 0))))])
 
 (defn controls
