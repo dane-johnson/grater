@@ -6,17 +6,27 @@
             
 (enable-console-print!)
 
-(defn sanity-validator
+(defn appstate-validator
   "Ensures sanity remains in range of 0-10"
-  [{:keys [sanity]}]
+  [{:keys [sanity, info]}]
   (and (>= sanity 0)
+       (<= sanity 10)
+       (>= info 0)
        (<= sanity 10)))
 
 (defonce appstate (atom {:deck []
                          :cards (list)
                          :money 0.00
-                         :sanity 10}
-                        :validator sanity-validator))
+                         :sanity 10
+                         :info 0}
+                        :validator appstate-validator))
+
+(defn calc-income
+  "Calculates daily income based on info and chance"
+  []
+  (+ (* 100 (:info @appstate) .9)
+     (* (- .5 (rand)) 100 .1)))
+
 
 (defn tweet
   "Represents a single tweet"
@@ -36,7 +46,7 @@
   (do
     (swap! appstate #(update % :cards conj card))
     (swap! appstate #(update % :sanity + (card 2)))
-    (swap! appstate #(update % :money + (card 3)))))
+    (swap! appstate #(update % :info + (card 3)))))
 
 (defn feed
   []
@@ -52,7 +62,8 @@
   []
   [:div.stats
    [stat "Money" (format "$%.2f" (:money @appstate))]
-   [stat "Sanity" (str (:sanity @appstate) "/10")]])
+   [stat "Sanity" (str (:sanity @appstate) "/10")]
+   [stat "Info" (str (:info @appstate) "/10")]])
 
 (defn button
   [str f]
@@ -68,8 +79,12 @@
 (defn work-button
   "Cash in information, reset sanity"
   []
-  [button "Go To Work" (fn [] (swap! appstate #(assoc % :sanity 10)))])
-
+  [button "Go To Work"
+   (fn [] (swap! appstate #(-> %
+                               (update :money + (calc-income))
+                               (assoc :sanity 10)
+                               (assoc :cards [])
+                               (assoc :info 0))))])
 
 (defn controls
   []
