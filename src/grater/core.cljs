@@ -24,8 +24,8 @@
 (defn calc-income
   "Calculates daily income based on info and chance"
   []
-  (+ (* 100 (:info @appstate) .9)
-     (* (- .5 (rand)) 100 .1)))
+  (+ (* 100 (:info @appstate) .8)
+     (* (- (rand) .65) 100 .2)))
 
 
 (defn tweet
