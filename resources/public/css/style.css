@@ -55,3 +55,8 @@
     text-align: center;
     padding: 20px;
 }
+
+.gameover {
+    display: block;
+    text-align: center;
+}
