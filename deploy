@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+cd "$(dirname "$0")"
+. .env
+lein clean
+lein cljsbuild once min
+aws s3 cp resources/public/ "$BUCKET" --recursive
