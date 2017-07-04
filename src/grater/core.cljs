@@ -14,12 +14,23 @@
        (>= info 0)
        (<= info 10)))
 
+(defn sanity-watcher
+  "Ensures sanity remains between 0-10 and puts the game in a gameover state when it drops to 0"
+  [_ ref {old :sanity} {curr :sanity}]
+  (cond
+    (and (> old 0) (<= curr 0)) (swap! ref #(-> %
+                                                (assoc :sanity 0)
+                                                (assoc :gamestate :game-over)))
+    (> curr 10) (swap! ref assoc :sanity 10)))
+
+
 (defonce appstate (atom {:deck []
                          :cards (list)
                          :money 0.00
                          :sanity 10
-                         :info 0}
-                        :validator appstate-validator))
+                         :info 0
+                         :gamestate :in-game}))
+(add-watch appstate nil sanity-watcher)
 
 (defn calc-income
   "Calculates daily income based on info and chance"
@@ -97,7 +108,20 @@
   []
   [:div.controls [read-button] [work-button]])
 
+(defn gamescreen
+  []
+  [:div [feed] [stats] [controls]])
 
-(reagent/render-component [:div [feed] [stats] [controls]]
+(defn gameover
+  []
+  [:div.gameover [:h1 "Game Over"]])
+
+(defn view
+  []
+  (cond
+    (= :in-game (:gamestate @appstate)) [gamescreen]
+    (= :game-over (:gamestate @appstate)) [gameover]))
+
+(reagent/render-component [view]
                           (. js/document (getElementById "app")))
 
