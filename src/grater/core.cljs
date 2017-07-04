@@ -23,6 +23,12 @@
                                                 (assoc :gamestate :game-over)))
     (> curr 10) (swap! ref assoc :sanity 10)))
 
+(defn info-watcher
+  "Ensures info remains between 0-10"
+  [_ ref _ {curr :info}]
+  (cond
+    (> curr 10) (swap! ref assoc :info 10)
+    (< curr 0) (swap! ref assoc :info 0)))
 
 (defonce appstate (atom {:deck []
                          :cards (list)
@@ -30,7 +36,8 @@
                          :sanity 10
                          :info 0
                          :gamestate :in-game}))
-(add-watch appstate nil sanity-watcher)
+(add-watch appstate :sanity-watch sanity-watcher)
+(add-watch appstate :info-watch info-watcher)
 
 (defn calc-income
   "Calculates daily income based on info and chance"
@@ -114,7 +121,9 @@
 
 (defn gameover
   []
-  [:div.gameover [:h1 "Game Over"]])
+  [:div.gameover
+   [:h1 "Game Over"]
+   [:h2 (format "Final Score: $%.2f" (:money @appstate))]])
 
 (defn view
   []
