@@ -30,14 +30,21 @@
     (> curr 10) (swap! ref assoc :info 10)
     (< curr 0) (swap! ref assoc :info 0)))
 
+(defn day-watcher
+  "Ends the game when days reach 0"
+  [_ ref _ {curr :days}]
+  (if (<= curr 0) (swap! ref assoc :gamestate :game-over)))
+
 (defonce appstate (atom {:deck []
                          :cards (list)
                          :money 0.00
                          :sanity 10
                          :info 0
+                         :days 20
                          :gamestate :in-game}))
 (add-watch appstate :sanity-watch sanity-watcher)
 (add-watch appstate :info-watch info-watcher)
+(add-watch appstate :day-watch day-watcher)
 
 (defn calc-income
   "Calculates daily income based on info and chance"
@@ -88,7 +95,8 @@
   [:div.stats
    [stat "Money" (format "$%.2f" (:money @appstate))]
    [stat "Sanity" (str (:sanity @appstate) "/10")]
-   [stat "Info" (str (:info @appstate) "/10")]])
+   [stat "Info" (str (:info @appstate) "/10")]
+   [stat "Days" (str (:days @appstate) "/20")]])
 
 (defn button
   [str f]
@@ -107,6 +115,7 @@
   [button "Go To Work"
    (fn [] (swap! appstate #(-> %
                                (update :money + (calc-income))
+                               (update :days dec)
                                (assoc :sanity 10)
                                (assoc :cards (list))
                                (assoc :info 0))))])
